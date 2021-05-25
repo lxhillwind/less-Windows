@@ -21,11 +21,17 @@ jobs:
     - name: Build the package
       run: |
         set LESS_VERSION=${{ github.event.inputs.version }}
-        build.bat && 7z a less.7z less.exe lesskey.exe
+        build.bat
       shell: cmd
 
     - name: Upload binary
       uses: actions/upload-artifact@v2
       with:
-        name: less-win32
-        path: less.7z
+        name: less-exe
+        path: less.exe
+
+    - name: Upload binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: lesskey-exe
+        path: lesskey.exe
