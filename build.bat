@@ -1,3 +1,8 @@
+goto build_x86
+exit 1
+
+:build_x86
+:: ----------------------------------------------------------------------
 @echo on
 
 set LESS_URL=https://www.greenwoodsoftware.com/less/less-%LESS_VERSION%.zip
