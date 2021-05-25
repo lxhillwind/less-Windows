@@ -6,6 +6,13 @@ call :downloadfile %LESS_URL% less.zip
 mv less-* less-src
 cd less-src
 
+:: Setting for targeting Windows XP, 32bit
+set SUBSYSTEM_VER=5.01
+set WinSdk71=%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.1A
+set INCLUDE=%WinSdk71%\Include;%INCLUDE%
+set "LIB=%WinSdk71%\Lib;%LIB%"
+set CL=/D_USING_V110_SDK71_
+
 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
 nmake /f Makefile.wnm
 
