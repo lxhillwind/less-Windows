@@ -24,14 +24,34 @@ jobs:
         build.bat
       shell: cmd
 
-    - name: Upload binary
-      uses: actions/upload-artifact@v2
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: less-exe
-        path: less.exe
+        tag_name: ${{ github.event.inputs.version }}
+        release_name: Package ${{ github.event.inputs.version }}
+        draft: false
+        prerelease: false
+        body: Package ${{ github.event.inputs.version }}
 
-    - name: Upload binary
-      uses: actions/upload-artifact@v2
+    - name: Upload Release Asset less
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: lesskey-exe
-        path: lesskey.exe
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: ./less.exe
+        asset_name: less.exe
+        asset_content_type: application/octet-stream
+
+    - name: Upload Release Asset lesskey
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: ./lesskey.exe
+        asset_name: lesskey.exe
+        asset_content_type: application/octet-stream
